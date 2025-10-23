@@ -73,15 +73,13 @@ class ProductController extends Controller
 
         return redirect()->route('products.index')->with('ok', 'Eliminado');
     }
-    // Dentro de tu ProductController (o el controlador que uses para reponer):
+
 public function restock(Request $request, Product $product)
 {
     $data = $request->validate(['cantidad' => 'required|integer|min:1']);
     $antes = $product->stock;
 
-    $product->increment('stock', $data['cantidad']); // actualiza
-    // El trait ya registrará "updated" con los cambios.
-    // Además, guardamos un log explícito de reposición:
+    $product->increment('stock', $data['cantidad']); 
     activity('product')
         ->performedOn($product)
         ->causedBy(auth()->user())
